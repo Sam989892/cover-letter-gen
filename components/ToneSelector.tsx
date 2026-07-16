@@ -20,10 +20,10 @@ export default function ToneSelector({ value, onChange }: Props) {
           role="radio"
           aria-checked={value === tone}
           onClick={() => onChange(tone)}
-          className={`cursor-pointer rounded-full px-4 py-2 text-sm font-medium transition-colors ${
+          className={`cursor-pointer rounded-full border px-4 py-2 text-sm font-medium transition-colors ${
             value === tone
-              ? 'bg-teal-600 text-white'
-              : 'border border-slate-200 text-slate-600 hover:bg-slate-100 dark:border-slate-700 dark:text-slate-300 dark:hover:bg-slate-800'
+              ? 'border-wine bg-wine text-paper'
+              : 'border-line bg-paper text-ink-soft hover:border-gold hover:text-ink'
           }`}
         >
           {labels[tone]}

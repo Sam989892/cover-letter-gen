@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import { Copy, Check, Download, FileText } from 'lucide-react'
+import { Copy, Check, Download } from 'lucide-react'
 
 type Props = { letter: string; streaming: boolean }
 
@@ -26,40 +26,47 @@ export default function OutputPanel({ letter, streaming }: Props) {
 
   if (!letter) {
     return (
-      <div className="flex h-full min-h-80 flex-col items-center justify-center rounded-2xl border border-dashed border-slate-200 p-8 text-center text-slate-400 dark:border-slate-800">
-        <FileText size={32} className="mb-3 opacity-40" />
-        <p className="text-sm">Your letter will stream in here as it&apos;s written.</p>
+      <div className="flex h-full min-h-96 flex-col items-center justify-center rounded-sm border border-line bg-paper/60 p-10 text-center">
+        <div className="font-display text-2xl italic text-line">Dear Hiring Manager…</div>
+        <p className="mt-3 text-sm text-ink-soft">Your letter will appear here, written line by line.</p>
       </div>
     )
   }
 
   return (
-    <div className="flex h-full flex-col rounded-2xl border border-slate-200 bg-white dark:border-slate-800 dark:bg-slate-900">
-      <div className="flex items-center justify-between border-b border-slate-100 px-5 py-3 dark:border-slate-800">
-        <span className="text-sm font-medium text-slate-500 dark:text-slate-400">
-          {streaming ? 'Writing…' : 'Your cover letter'}
-        </span>
-        <div className="flex gap-2">
-          <button
-            onClick={copy}
-            disabled={streaming}
-            className="flex cursor-pointer items-center gap-1.5 rounded-lg border border-slate-200 px-3 py-1.5 text-sm text-slate-600 transition-colors hover:bg-slate-100 disabled:opacity-40 dark:border-slate-700 dark:text-slate-300 dark:hover:bg-slate-800"
-          >
-            {copied ? <Check size={14} className="text-teal-600" /> : <Copy size={14} />}
-            {copied ? 'Copied' : 'Copy'}
-          </button>
-          <button
-            onClick={download}
-            disabled={streaming}
-            className="flex cursor-pointer items-center gap-1.5 rounded-lg border border-slate-200 px-3 py-1.5 text-sm text-slate-600 transition-colors hover:bg-slate-100 disabled:opacity-40 dark:border-slate-700 dark:text-slate-300 dark:hover:bg-slate-800"
-          >
-            <Download size={14} /> .txt
-          </button>
+    <div className="flex h-full flex-col">
+      {/* the letter, on paper */}
+      <div className="relative flex-1 overflow-hidden rounded-sm border border-line bg-paper shadow-[0_2px_20px_rgba(36,28,26,0.08)]">
+        {/* letterhead */}
+        <div className="flex items-center justify-between border-b border-double border-gold/40 px-8 py-4">
+          <span className="font-display text-lg italic tracking-tight text-wine">Cover Letter</span>
+          <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-ink-soft">
+            {streaming ? 'writing…' : 'draft'}
+          </span>
+        </div>
+        <div className="max-h-[28rem] overflow-y-auto whitespace-pre-wrap px-8 py-7 font-display text-[16px] leading-[1.9] text-ink">
+          {letter}
+          {streaming && <span className="ml-0.5 inline-block h-5 w-0.5 animate-pulse bg-wine align-middle" />}
         </div>
       </div>
-      <div className="flex-1 overflow-y-auto whitespace-pre-wrap p-6 text-[15px] leading-relaxed text-slate-800 dark:text-slate-200">
-        {letter}
-        {streaming && <span className="ml-0.5 inline-block h-4 w-2 animate-pulse bg-teal-500 align-middle" />}
+
+      {/* actions */}
+      <div className="mt-3 flex justify-end gap-2">
+        <button
+          onClick={copy}
+          disabled={streaming}
+          className="flex cursor-pointer items-center gap-1.5 rounded-full border border-line bg-paper px-4 py-2 text-sm text-ink-soft transition-colors hover:border-wine hover:text-wine disabled:opacity-40"
+        >
+          {copied ? <Check size={14} className="text-wine" /> : <Copy size={14} />}
+          {copied ? 'Copied' : 'Copy'}
+        </button>
+        <button
+          onClick={download}
+          disabled={streaming}
+          className="flex cursor-pointer items-center gap-1.5 rounded-full border border-line bg-paper px-4 py-2 text-sm text-ink-soft transition-colors hover:border-wine hover:text-wine disabled:opacity-40"
+        >
+          <Download size={14} /> .txt
+        </button>
       </div>
     </div>
   )
